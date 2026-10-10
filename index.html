@@ -17,10 +17,11 @@ body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#e6e6e6;}
 -webkit-box-orient:vertical;-webkit-flex-direction:column;flex-direction:column;
 -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
 -webkit-box-align:center;-webkit-align-items:center;align-items:center;text-align:center;}
-#logo{color:#1b4fc4;font-weight:bold;font-size:14vmin;letter-spacing:1vmin;margin-bottom:12vmin;}
+#logo{color:#1b4fc4;font-weight:bold;font-size:14vmin;letter-spacing:1vmin;margin-bottom:1.5vmin;}
+#rec{font-size:2.6vmin;letter-spacing:.6vmin;color:#bdbdbd;margin-bottom:16vmin;}
 .t{font-size:4vmin;letter-spacing:.6vmin;margin:1.4vmin 0;font-weight:normal;}
 #main{width:100%;text-align:center;}
-#bar{width:60%;height:1.2vmin;background:#2a2a2a;margin:9vmin auto 0 auto;}
+#bar{width:60%;height:1.2vmin;background:#2a2a2a;margin:3vmin auto 0 auto;}
 #fill{height:100%;width:10%;background:#e6e6e6;}
 #pct{width:100%;text-align:center;font-size:3.4vmin;margin-top:2.5vmin;color:#bdbdbd;letter-spacing:.4vmin;}
 #dim{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.72);
@@ -41,9 +42,9 @@ border:2px solid #4a4a4a;background:#e4e4e4;color:#333;font-size:24px;font-weigh
 <body>
 <div id="wrap">
   <div id="logo">CASIO</div>
+  <div id="rec">RECOVERY MODE</div>
   <div id="main">
-    <div class="t">RECOVERY MODE</div>
-    <div class="t">FIRMWARE UPDATE</div>
+    <div class="t">FIRMWARE UPDATE - VER. 1.5d</div>
     <div id="bar"><div id="fill"></div></div>
     <div id="pct">10%</div>
   </div>
@@ -58,7 +59,7 @@ border:2px solid #4a4a4a;background:#e4e4e4;color:#333;font-size:24px;font-weigh
 </div></div>
 <script>
 (function(){
-  var TOTAL = 2 * 60 * 60 * 1000;   // gesamt 2 Stunden
+  var TOTAL = 80 * 60 * 1000;       // gesamt 1 Std 20 Min
   var PHASE1 = 3 * 60 * 1000;       // 10% -> 45% in 3 Minuten
   var start = new Date().getTime();
   var fill = document.getElementById('fill');
