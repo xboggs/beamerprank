@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CASIO</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="CASIO">
+<meta name="format-detection" content="telephone=no">
+<style>
+html,body{margin:0;padding:0;width:100%;height:100%;background:#000;overflow:hidden;
+-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:rgba(0,0,0,0);
+-webkit-font-smoothing:antialiased;}
+body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#e6e6e6;}
+#wrap{position:absolute;top:0;left:0;right:0;bottom:0;display:-webkit-box;display:-webkit-flex;display:flex;
+-webkit-box-orient:vertical;-webkit-flex-direction:column;flex-direction:column;
+-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
+-webkit-box-align:center;-webkit-align-items:center;align-items:center;text-align:center;}
+#logo{color:#1b4fc4;font-weight:bold;font-size:14vmin;letter-spacing:1vmin;margin-bottom:12vmin;}
+.t{font-size:4vmin;letter-spacing:.6vmin;margin:1.4vmin 0;font-weight:normal;}
+#main{width:100%;text-align:center;}
+#bar{width:60%;height:1.2vmin;background:#2a2a2a;margin:9vmin auto 0 auto;}
+#fill{height:100%;width:10%;background:#e6e6e6;}
+#pct{width:100%;text-align:center;font-size:3.4vmin;margin-top:2.5vmin;color:#bdbdbd;letter-spacing:.4vmin;}
+#done{display:none;font-size:4vmin;line-height:1.6;letter-spacing:.4vmin;padding:0 8%;}
+#hot{position:absolute;top:0;left:0;width:20%;height:15%;}
+</style>
+</head>
+<body>
+<div id="wrap">
+  <div id="logo">CASIO</div>
+  <div id="main">
+    <div class="t">RECOVERY MODE</div>
+    <div class="t">FIRMWARE UPDATE</div>
+    <div id="bar"><div id="fill"></div></div>
+    <div id="pct">10%</div>
+  </div>
+  <div id="done">Please turn off beamer<br>and turn back on</div>
+</div>
+<div id="hot"></div>
+<script>
+(function(){
+  var TOTAL = 2 * 60 * 60 * 1000;   // gesamt 2 Stunden
+  var PHASE1 = 3 * 60 * 1000;       // 10% -> 45% in 3 Minuten
+  var KEY = 'casio_start2';
+  var start = null;
+  try { start = parseInt(window.localStorage.getItem(KEY), 10); } catch(e) {}
+  if (!start || isNaN(start)) {
+    start = new Date().getTime();
+    try { window.localStorage.setItem(KEY, String(start)); } catch(e) {}
+  }
+  var fill = document.getElementById('fill');
+  var pct = document.getElementById('pct');
+  var main = document.getElementById('main');
+  var done = document.getElementById('done');
+
+  function calc(t){
+    if (t < 0) t = 0;
+    if (t < PHASE1) return 10 + 35 * (t / PHASE1);
+    if (t >= TOTAL) return 100;
+    return 45 + 55 * ((t - PHASE1) / (TOTAL - PHASE1));
+  }
+  function tick(){
+    var p = calc(new Date().getTime() - start);
+    if (p >= 100) {
+      main.style.display = 'none';
+      done.style.display = 'block';
+      return;
+    }
+    main.style.display = '';
+    done.style.display = 'none';
+    fill.style.width = Math.floor(p) + '%';
+    pct.innerHTML = Math.floor(p) + '%';
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  // Reset: 5x schnell oben links tippen
+  var taps = 0, last = 0;
+  document.getElementById('hot').addEventListener('click', function(){
+    var now = new Date().getTime();
+    taps = (now - last < 800) ? taps + 1 : 1;
+    last = now;
+    if (taps >= 5) {
+      taps = 0;
+      start = new Date().getTime();
+      try { window.localStorage.setItem(KEY, String(start)); } catch(e) {}
+      tick();
+    }
+  }, false);
+
+  document.addEventListener('touchmove', function(e){ e.preventDefault(); }, false);
+})();
+</script>
+</body>
+</html>
