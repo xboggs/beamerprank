@@ -62,10 +62,12 @@ border:2px solid #4a4a4a;background:#e4e4e4;color:#333;font-size:24px;font-weigh
 </div></div>
 <script>
 (function(){
-  // var TOTAL = 80 * 60 * 1000;       // gesamt 1 Std 20 Min
-  // var PHASE1 = 3 * 60 * 1000;       // 10% -> 45% in 3 Minuten
-  var TOTAL = 20 * 1000;            // TEST
-  var PHASE1 = 10 * 1000;           // TEST
+  var TOTAL = 80 * 60 * 1000;       // gesamt 1 Std 20 Min
+  var PHASE1 = 3 * 60 * 1000;       // 10% -> 45% in 3 Minuten
+  
+  // var TOTAL = 20 * 1000;            // TEST
+  // var PHASE1 = 10 * 1000;           // TEST
+  
   var start = new Date().getTime();
   var fill = document.getElementById('fill');
   var pct = document.getElementById('pct');
