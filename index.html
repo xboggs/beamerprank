@@ -24,7 +24,6 @@ body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#e6e6e6;}
 #fill{height:100%;width:10%;background:#e6e6e6;}
 #pct{width:100%;text-align:center;font-size:3.4vmin;margin-top:2.5vmin;color:#bdbdbd;letter-spacing:.4vmin;}
 #done{display:none;font-size:4vmin;line-height:1.6;letter-spacing:.4vmin;padding:0 8%;}
-#hot{position:absolute;top:0;left:0;width:20%;height:15%;}
 </style>
 </head>
 <body>
@@ -36,20 +35,13 @@ body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#e6e6e6;}
     <div id="bar"><div id="fill"></div></div>
     <div id="pct">10%</div>
   </div>
-  <div id="done">Please turn off beamer<br>and turn back on</div>
+  <div id="done">Please turn Projector off,<br>wait 1 Minute,<br>then turn back on</div>
 </div>
-<div id="hot"></div>
 <script>
 (function(){
   var TOTAL = 2 * 60 * 60 * 1000;   // gesamt 2 Stunden
   var PHASE1 = 3 * 60 * 1000;       // 10% -> 45% in 3 Minuten
-  var KEY = 'casio_start2';
-  var start = null;
-  try { start = parseInt(window.localStorage.getItem(KEY), 10); } catch(e) {}
-  if (!start || isNaN(start)) {
-    start = new Date().getTime();
-    try { window.localStorage.setItem(KEY, String(start)); } catch(e) {}
-  }
+  var start = new Date().getTime();
   var fill = document.getElementById('fill');
   var pct = document.getElementById('pct');
   var main = document.getElementById('main');
@@ -75,20 +67,6 @@ body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#e6e6e6;}
   }
   tick();
   setInterval(tick, 1000);
-
-  // Reset: 5x schnell oben links tippen
-  var taps = 0, last = 0;
-  document.getElementById('hot').addEventListener('click', function(){
-    var now = new Date().getTime();
-    taps = (now - last < 800) ? taps + 1 : 1;
-    last = now;
-    if (taps >= 5) {
-      taps = 0;
-      start = new Date().getTime();
-      try { window.localStorage.setItem(KEY, String(start)); } catch(e) {}
-      tick();
-    }
-  }, false);
 
   document.addEventListener('touchmove', function(e){ e.preventDefault(); }, false);
 })();
