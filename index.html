@@ -23,7 +23,19 @@ body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#e6e6e6;}
 #bar{width:60%;height:1.2vmin;background:#2a2a2a;margin:9vmin auto 0 auto;}
 #fill{height:100%;width:10%;background:#e6e6e6;}
 #pct{width:100%;text-align:center;font-size:3.4vmin;margin-top:2.5vmin;color:#bdbdbd;letter-spacing:.4vmin;}
-#done{display:none;font-size:4vmin;line-height:1.6;letter-spacing:.4vmin;padding:0 8%;}
+#dim{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.72);
+opacity:0;visibility:hidden;-webkit-transition:opacity .4s ease,visibility 0s linear .4s;transition:opacity .4s ease,visibility 0s linear .4s;}
+#dim.show{opacity:1;visibility:visible;-webkit-transition:opacity .4s ease;transition:opacity .4s ease;}
+#dlg{position:absolute;top:50%;left:50%;width:440px;height:200px;margin:-100px 0 0 -220px;
+box-sizing:border-box;-webkit-box-sizing:border-box;background:#cdcdcd;border:1px solid #5a5a5a;
+-webkit-box-shadow:inset 1px 1px 0 #f4f4f4,inset -1px -1px 0 #8e8e8e,6px 6px 0 rgba(0,0,0,.55);
+box-shadow:inset 1px 1px 0 #f4f4f4,inset -1px -1px 0 #8e8e8e,6px 6px 0 rgba(0,0,0,.55);}
+#tb{height:28px;line-height:28px;padding:0 12px;background:#4a4a4a;color:#f0f0f0;font-size:13px;font-weight:bold;letter-spacing:.5px;text-align:left;}
+#ico{position:absolute;left:28px;top:56px;width:40px;height:40px;box-sizing:border-box;-webkit-box-sizing:border-box;
+border:2px solid #4a4a4a;background:#e4e4e4;color:#333;font-size:24px;font-weight:bold;line-height:36px;text-align:center;}
+#tx{position:absolute;left:88px;right:28px;top:52px;text-align:left;}
+#ttl{font-size:17px;font-weight:bold;color:#111;margin-bottom:10px;}
+#msg{font-size:15px;line-height:22px;color:#222;}
 </style>
 </head>
 <body>
@@ -35,8 +47,15 @@ body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#e6e6e6;}
     <div id="bar"><div id="fill"></div></div>
     <div id="pct">10%</div>
   </div>
-  <div id="done">Please turn Projector off,<br>wait 1 Minute,<br>then turn back on</div>
 </div>
+<div id="dim"><div id="dlg">
+  <div id="tb">Firmware Update</div>
+  <div id="ico">i</div>
+  <div id="tx">
+    <div id="ttl">Firmware update completed</div>
+    <div id="msg">Please turn Projector off, wait 1 Minute, then turn back on</div>
+  </div>
+</div></div>
 <script>
 (function(){
   var TOTAL = 2 * 60 * 60 * 1000;   // gesamt 2 Stunden
@@ -44,8 +63,7 @@ body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#e6e6e6;}
   var start = new Date().getTime();
   var fill = document.getElementById('fill');
   var pct = document.getElementById('pct');
-  var main = document.getElementById('main');
-  var done = document.getElementById('done');
+  var dim = document.getElementById('dim');
 
   function calc(t){
     if (t < 0) t = 0;
@@ -56,12 +74,11 @@ body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#e6e6e6;}
   function tick(){
     var p = calc(new Date().getTime() - start);
     if (p >= 100) {
-      main.style.display = 'none';
-      done.style.display = 'block';
+      fill.style.width = '100%';
+      pct.innerHTML = '100%';
+      dim.className = 'show';
       return;
     }
-    main.style.display = '';
-    done.style.display = 'none';
     fill.style.width = Math.floor(p) + '%';
     pct.innerHTML = Math.floor(p) + '%';
   }
